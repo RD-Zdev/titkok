@@ -1,9 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 // Fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faSpinner, faMagnifyingGlass, faEllipsisVertical, faEarthAsia, faCircleQuestion, faKeyboard } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCircleXmark,
+    faSpinner,
+    faMagnifyingGlass,
+    faEllipsisVertical,
+    faEarthAsia,
+    faCircleQuestion,
+    faKeyboard,
+} from '@fortawesome/free-solid-svg-icons';
 //TIPPY
 import Tippy from '@tippyjs/react/headless';
 //CSS
@@ -14,13 +22,42 @@ import AccountItem from '~/components/AccountItem';
 import Button from '~/components/Button';
 import Menu from '~/components/Popper/Menu';
 
-
 const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faEarthAsia} />,
         title: 'English',
+        children: {
+            title: 'Language',
+            data: [
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                    children: {
+                        title: 'Language',
+                        data: [
+                            {
+                                type: 'language',
+                                code: 'vi',
+                                title: 'Tiếng Việt1',
+                            },
+                            {
+                                type: 'language',
+                                code: 'en',
+                                title: 'English1',
+                            },
+                        ],
+                    },
+                },
+            ],
+        },
     },
     {
         icon: <FontAwesomeIcon icon={faCircleQuestion} />,
@@ -30,16 +67,26 @@ const MENU_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faKeyboard} />,
         title: 'Keyboard shortcuts',
-    }
-]
+    },
+];
 function Header() {
     const [searchResults, setSearchResults] = useState([]);
 
-    // useEffect(() => {
-    //     setTimeout(() => { setSearchResults([1, 2, 3]) }, 0);
-    // }, [])
-
-
+    useEffect(() => {
+        setTimeout(() => {
+            setSearchResults([]);
+        }, 0);
+    }, []);
+    //hander Logic
+    const handerMenuChange = (menuItem) => {
+        switch (menuItem.type) {
+            case 'language':
+                console.log('Change language', menuItem.code);
+                break;
+            default:
+                break;
+        }
+    };
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -49,12 +96,10 @@ function Header() {
                 <Tippy
                     interactive
                     visible={searchResults.length > 0}
-                    render={attrs => (
+                    render={(attrs) => (
                         <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                             <PopperWrapper>
-                                <h4 className={cx('search-title')}>
-                                    Account
-                                </h4>
+                                <h4 className={cx('search-title')}>Account</h4>
                                 <AccountItem />
                                 <AccountItem />
                                 <AccountItem />
@@ -78,9 +123,7 @@ function Header() {
                     <Button text>Upload</Button>
                     <Button primary>Log in</Button>
 
-                    <Menu
-                        items={MENU_ITEMS}
-                    >
+                    <Menu items={MENU_ITEMS} onChange={handerMenuChange}>
                         <button className={cx('more-btn')}>
                             <FontAwesomeIcon icon={faEllipsisVertical} />
                         </button>

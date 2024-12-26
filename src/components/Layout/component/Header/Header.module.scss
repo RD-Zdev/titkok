@@ -12,6 +12,7 @@
 }
 
 .inner {
+    padding: 0 var(--default-layout-horizontal-spacer);
     height: 100%;
     width: var(--default-layout-width);
     display: flex;
@@ -96,6 +97,7 @@
 }
 
 .more-btn{
+    cursor: pointer;
     font-size: 2rem;
     margin-left: 29px;
     padding: 4px 8px;
