@@ -38,7 +38,8 @@ function Search() {
                 setLoading(false);
             })
             .catch(() => setLoading(false));
-    }, [debounced, searchValue]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [debounced]);
 
     const handleHideResults = () => {
         setShowResults(false);
