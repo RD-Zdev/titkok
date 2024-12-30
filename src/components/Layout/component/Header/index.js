@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { useState } from 'react';
 
 // Fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,6 +18,8 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 //CSS
 import styles from './Header.module.scss';
+
+import routesConfig from '~/config/routes';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import Menu from '~/components/Popper/Menu';
@@ -27,54 +30,37 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const MENU_ITEMS = [
-    {
-        icon: <FontAwesomeIcon icon={faEarthAsia} />,
-        title: 'English',
-        children: {
-            title: 'Language',
-            data: [
-                {
-                    type: 'language',
-                    code: 'vi',
-                    title: 'Tiếng Việt',
-                },
-                {
-                    type: 'language',
-                    code: 'en',
-                    title: 'English',
-                    children: {
-                        title: 'Language',
-                        data: [
-                            {
-                                type: 'language',
-                                code: 'vi',
-                                title: 'Tiếng Việt1',
-                            },
-                            {
-                                type: 'language',
-                                code: 'en',
-                                title: 'English1',
-                            },
-                        ],
-                    },
-                },
-            ],
-        },
-    },
-    {
-        icon: <FontAwesomeIcon icon={faCircleQuestion} />,
-        title: 'Feedback and help',
-        to: '/feedback',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faKeyboard} />,
-        title: 'Keyboard shortcuts',
-    },
-];
 function Header() {
-    const currentUser = true;
-
+    const MENU_ITEMS = [
+        {
+            icon: <FontAwesomeIcon icon={faEarthAsia} />,
+            title: 'English',
+            children: {
+                title: 'Language',
+                data: [
+                    {
+                        type: 'language',
+                        code: 'vi',
+                        title: 'Tiếng Việt',
+                    },
+                    {
+                        type: 'language',
+                        code: 'en',
+                        title: 'English',
+                    },
+                ],
+            },
+        },
+        {
+            icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+            title: 'Feedback and help',
+            to: '/feedback',
+        },
+        {
+            icon: <FontAwesomeIcon icon={faKeyboard} />,
+            title: 'Keyboard shortcuts',
+        },
+    ];
     const userMenu = [
         {
             icon: <FontAwesomeIcon icon={faUser} />,
@@ -99,7 +85,6 @@ function Header() {
             separate: true,
         },
     ];
-
     //hander Logic
     const handerMenuChange = (menuItem) => {
         switch (menuItem.type) {
@@ -110,10 +95,22 @@ function Header() {
                 break;
         }
     };
+    const [currentUser, setCurrentUser] = useState(true);
+    //handle lấy thông tin của item Menu
+    const menuItem = currentUser ? userMenu : MENU_ITEMS;
+    //handle LOGIN/LOGOUT thủ công
+    document.addEventListener('click', (e) => {
+        if (e.target.innerText === 'Log out') {
+            setCurrentUser(false);
+        } else if (e.target.innerText === 'Log in') {
+            setCurrentUser(true);
+        }
+    });
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <Link to="/" className={cx('logo')}>
+                <Link to={routesConfig.home} className={cx('logo')}>
                     <img src={images.logo} alt="Tiktok" />
                 </Link>
                 <Search />
@@ -145,7 +142,7 @@ function Header() {
                         </>
                     )}
 
-                    <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handerMenuChange}>
+                    <Menu items={menuItem} onChange={handerMenuChange}>
                         {currentUser ? (
                             <Image
                                 src="https://p16-sign-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/7328686068268531714.jpeg?lk3s=a5d48078&nonce=55477&refresh_token=66139c0eb6c2410c175ea15a4fed5adb&x-expires=1735459200&x-signature=kg%2ByyU6Hf4lUHzAjmfWdADchB1g%3D&shp=a5d48078&shcp=81f88b70"
