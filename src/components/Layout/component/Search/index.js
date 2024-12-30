@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import { useState, useEffect, useRef } from 'react';
 
 import styles from './Search.module.scss';
+import * as searchServices from '~/apiServices/searchServices';
 
 import HeadlessTippy from '@tippyjs/react/headless';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
@@ -26,18 +27,20 @@ function Search() {
 
     useEffect(() => {
         if (!searchValue.trim()) {
+            setSearchResult([]);
             return;
         }
 
-        setLoading(true);
+        const fetchApi = async () => {
+            setLoading(true);
 
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
-            .then((res) => res.json())
-            .then((res) => {
-                setSearchResult(res.data);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
+            const result = await searchServices.search(debounced);
+            setSearchResult(result);
+
+            setLoading(false);
+        };
+
+        fetchApi();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounced]);
 
