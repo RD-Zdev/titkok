@@ -48,6 +48,146 @@ function Header() {
                         code: 'en',
                         title: 'English',
                     },
+                    {
+                        type: 'language',
+                        code: 'es',
+                        title: 'Español',
+                    },
+                    {
+                        type: 'language',
+                        code: 'fr',
+                        title: 'Français',
+                    },
+                    {
+                        type: 'language',
+                        code: 'de',
+                        title: 'Deutsch',
+                    },
+                    {
+                        type: 'language',
+                        code: 'zh',
+                        title: '中文',
+                    },
+                    {
+                        type: 'language',
+                        code: 'ja',
+                        title: '日本語',
+                    },
+                    {
+                        type: 'language',
+                        code: 'ko',
+                        title: '한국어',
+                    },
+                    {
+                        type: 'language',
+                        code: 'ru',
+                        title: 'Русский',
+                    },
+                    {
+                        type: 'language',
+                        code: 'ar',
+                        title: 'العربية',
+                    },
+                    {
+                        type: 'language',
+                        code: 'hi',
+                        title: 'हिन्दी',
+                    },
+                    {
+                        type: 'language',
+                        code: 'pt',
+                        title: 'Português',
+                    },
+                    {
+                        type: 'language',
+                        code: 'it',
+                        title: 'Italiano',
+                    },
+                    {
+                        type: 'language',
+                        code: 'tr',
+                        title: 'Türkçe',
+                    },
+                    {
+                        type: 'language',
+                        code: 'th',
+                        title: 'ภาษาไทย',
+                    },
+                    {
+                        type: 'language',
+                        code: 'vi',
+                        title: 'Tiếng Việt',
+                    },
+                    {
+                        type: 'language',
+                        code: 'en',
+                        title: 'English',
+                    },
+                    {
+                        type: 'language',
+                        code: 'es',
+                        title: 'Español',
+                    },
+                    {
+                        type: 'language',
+                        code: 'fr',
+                        title: 'Français',
+                    },
+                    {
+                        type: 'language',
+                        code: 'de',
+                        title: 'Deutsch',
+                    },
+                    {
+                        type: 'language',
+                        code: 'zh',
+                        title: '中文',
+                    },
+                    {
+                        type: 'language',
+                        code: 'ja',
+                        title: '日本語',
+                    },
+                    {
+                        type: 'language',
+                        code: 'ko',
+                        title: '한국어',
+                    },
+                    {
+                        type: 'language',
+                        code: 'ru',
+                        title: 'Русский',
+                    },
+                    {
+                        type: 'language',
+                        code: 'ar',
+                        title: 'العربية',
+                    },
+                    {
+                        type: 'language',
+                        code: 'hi',
+                        title: 'हिन्दी',
+                    },
+                    {
+                        type: 'language',
+                        code: 'pt',
+                        title: 'Português',
+                    },
+                    {
+                        type: 'language',
+                        code: 'it',
+                        title: 'Italiano',
+                    },
+                    {
+                        type: 'language',
+                        code: 'tr',
+                        title: 'Türkçe',
+                    },
+                    {
+                        type: 'language',
+                        code: 'th',
+                        title: 'ภาษาไทย',
+                    },
                 ],
             },
         },
@@ -79,33 +219,32 @@ function Header() {
         },
         ...MENU_ITEMS,
         {
+            type: 'logout',
             icon: <FontAwesomeIcon icon={faSignOut} />,
             title: 'Log out',
             to: '/logout',
             separate: true,
         },
     ];
+    const [currentUser, setCurrentUser] = useState(true);
+
+    //handle lấy thông tin của item Menu
+    const menuItems = currentUser ? userMenu : MENU_ITEMS;
+
     //hander Logic
     const handerMenuChange = (menuItem) => {
         switch (menuItem.type) {
             case 'language':
                 console.log('Change language', menuItem.code);
                 break;
+            case 'logout':
+                console.log('Log out');
+                setCurrentUser(false);
+                break;
             default:
                 break;
         }
     };
-    const [currentUser, setCurrentUser] = useState(true);
-    //handle lấy thông tin của item Menu
-    const menuItem = currentUser ? userMenu : MENU_ITEMS;
-    //handle LOGIN/LOGOUT thủ công
-    document.addEventListener('click', (e) => {
-        if (e.target.innerText === 'Log out') {
-            setCurrentUser(false);
-        } else if (e.target.innerText === 'Log in') {
-            setCurrentUser(true);
-        }
-    });
 
     return (
         <header className={cx('wrapper')}>
@@ -138,11 +277,19 @@ function Header() {
                     ) : (
                         <>
                             <Button text>Upload</Button>
-                            <Button primary>Log in</Button>
+                            <Button
+                                primary
+                                onClick={() => {
+                                    console.log('Log in');
+                                    setCurrentUser(true);
+                                }}
+                            >
+                                Log in
+                            </Button>
                         </>
                     )}
 
-                    <Menu items={menuItem} onChange={handerMenuChange}>
+                    <Menu items={menuItems} onChange={handerMenuChange}>
                         {currentUser ? (
                             <Image
                                 src="https://p16-sign-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/7328686068268531714.jpeg?lk3s=a5d48078&nonce=55477&refresh_token=66139c0eb6c2410c175ea15a4fed5adb&x-expires=1735459200&x-signature=kg%2ByyU6Hf4lUHzAjmfWdADchB1g%3D&shp=a5d48078&shcp=81f88b70"

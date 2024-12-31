@@ -5,7 +5,7 @@ import { Wrapper as PopperWrapper } from '~/components/Popper';
 import MenuItem from './MenuItem';
 import styles from './Menu.module.scss';
 import Header from './Header';
-import { useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -14,24 +14,27 @@ const defaultFn = () => {};
 function Menu({ children, items = [], onChange = defaultFn }) {
     const [history, setHistory] = useState([{ data: items }]);
 
+    useEffect(() => {
+        setHistory([{ data: items }]);
+    }, [items]);
+
     const current = history[history.length - 1]; // lấy phần tử cuối của mảng
+
+    // sử dụng useCallback cho onClick của MENU
+    const handleClick = useCallback(
+        (item) => {
+            if (item.children) {
+                setHistory((prev) => [...prev, item.children]);
+            } else {
+                onChange(item);
+            }
+        },
+        [onChange],
+    );
 
     const renderItems = () => {
         return current.data.map((item, index) => {
-            const isParent = !!item.children;
-            return (
-                <MenuItem
-                    key={index}
-                    data={item}
-                    onClick={() => {
-                        if (isParent) {
-                            setHistory((prev) => [...prev, item.children]);
-                        } else {
-                            onChange(item);
-                        }
-                    }}
-                />
-            );
+            return <MenuItem key={index} data={item} onClick={() => handleClick(item)} />;
         });
     };
 
