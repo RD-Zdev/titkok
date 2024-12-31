@@ -292,7 +292,7 @@ function Header() {
                     <Menu items={menuItems} onChange={handerMenuChange}>
                         {currentUser ? (
                             <Image
-                                src="https://p16-sign-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/7328686068268531714.jpeg?lk3s=a5d48078&nonce=55477&refresh_token=66139c0eb6c2410c175ea15a4fed5adb&x-expires=1735459200&x-signature=kg%2ByyU6Hf4lUHzAjmfWdADchB1g%3D&shp=a5d48078&shcp=81f88b70"
+                                src="https://lh3.googleusercontent.com/ogw/AF2bZyg9z2ZQLx2y15LxrFPmSO45eC9tW74hYy-F9JnMdCNggsc=s32-c-mo"
                                 className={cx('user-avatar')}
                                 alt="Nguyenvana"
                                 fallback="https://fullstack.edu.vn/assets/f8-icon-lV2rGpF0.png"
