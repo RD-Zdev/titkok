@@ -13,10 +13,11 @@
     input {
         flex: 1;
         color: var(--black);
+        height: 100%;
+        padding-right: 40px;
         font-size: 1.6rem;
-        padding: 12px 0px;
         caret-color: var(--primary);
-        background: transparent;
+        background-color: transparent;
         font-family: var(--font-family);
     }
 
